@@ -1,0 +1,7 @@
+
+        [ckan.plugins]
+        dataretrieval=ckanext.dataretrieval.plugin:DataretrievalPlugin
+
+        [babel.extractors]
+        ckan = ckan.lib.extract:extract_ckan
+    
