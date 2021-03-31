@@ -46,6 +46,11 @@ class DataretrievalPlugin(plugins.SingletonPlugin):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'dataretrieval')
+        # Add this plugin's templates dir to CKAN's extra_template_paths, so
+        # that CKAN will use this plugin's custom templates.
+        # 'templates' is the path to the templates dir, relative to this
+        # plugin.py file.
+        toolkit.add_template_directory(config_, 'templates')
 
     plugins.implements(plugins.IAuthFunctions)
 
