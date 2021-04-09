@@ -1,6 +1,6 @@
 {% ckan_extends %}
 
-{% block content %}
+{% block primary_content_inner %}
   {{ super() }}
 
   {# Use Fanstatic to include our custom JavaScript module.
@@ -17,10 +17,11 @@
 
 
   <button data-module="example_theme_popover"
-          data-module-id="{{ package.id }}"
-          data-module-title="{{ package.title }}"
-          data-module-license_title="{{ package.license_title }}"
-          data-module-num_resources="{{ package.num_resources }}">
+          data-module-id="{{ pkg.id }}"
+          data-module-title="{{ pkg.title }}"
+          data-module-license_title="{{ pkg.license_title }}"
+          data-module-extras="{{ pkg.extras }}">
     <i class="fa fa-info-circle"></i>
   </button>
+  <div style="height: 1em;" />
 {% endblock %}

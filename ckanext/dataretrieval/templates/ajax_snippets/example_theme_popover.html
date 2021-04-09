@@ -7,17 +7,21 @@
 #}
 <div class="context-info">
   <div class="nums">
-    <dl>
-
-      <dt>{{ _('Followers') }}</dt>
-      <dd>{{ h.follow_count('dataset', id) }}</dd>
-
-      <dt>{{ _('Resources') }}</dt>
-      <dd>{{ num_resources }}</dd>
-
-    </dl>
+    <h5>
+      Data transformation to RDF status:
+    </h5>
+    <p id="dataretrieval_status"></p>
+    <br>
+    <p>
+      <i>If you want to can start the transformation with the following button.
+      Please note that it can take a while. Refresh this page if it takes too long to see the new status.</i>
+    </p>
+    <br>
+    <button id="dataretrieval_start">
+      Start
+    </button>
   </div>
-
+  <br>
   <div class="license">
     <dl>
       <dt>License</dt>
@@ -27,12 +31,31 @@
 
   <div class="clearfix"></div>
 
-  {{ h.follow_button('dataset', id) }}
-
-  <a class="btn go-to-dataset"
-     href="{{ h.url_for(controller='package', action='read', id=id) }}">
-    <i class="fa fa-arrow-circle-right"></i>
-    Go to dataset
-  </a>
-
 </div>
+<script>
+let pgk = '{{ extras }}'.replaceAll("&#39;", "\"")
+  .replaceAll("u\"", "\"")
+  .replaceAll("None,", "null,")
+  .replaceAll("True,", "true,")
+  .replaceAll("False,", "false,");
+console.log(pgk);
+console.log(JSON.parse(pgk));
+var extras = JSON.parse(pgk);
+let nomad_id = "dummy";
+extras.forEach((e) => {
+  if (e.key === "Identifier")
+    console.log(e.value);
+    nomad_id = e.value;
+  });
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var json = JSON.parse(this.responseText);
+    console.log(json);
+    $("#dataretrieval_status").html(json.status);
+  }
+};
+xhr.open("GET", "http://localhost:8080/mapping?id="+nomad_id+"&repository=NOMAD", true);
+xhr.send();
+
+</script>

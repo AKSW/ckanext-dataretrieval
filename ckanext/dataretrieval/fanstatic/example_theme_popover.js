@@ -70,6 +70,7 @@ ckan.module('example_theme_popover', function ($) {
         // JavaScript modules to receive. Pass the button that was clicked as a
         // parameter to the receiver functions.
         this.sandbox.publish('dataset_popover_clicked', this.el);
+        console.log(this.sandbox.jQuery);
     },
 
     // This callback function is called whenever a 'dataset_popover_clicked'
