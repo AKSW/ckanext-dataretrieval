@@ -8,14 +8,15 @@
 <div class="context-info">
   <div class="nums">
     <h5>
+      WORK IN PROGRESS<br>
       Data transformation to RDF status:
     </h5>
     <p id="dataretrieval_status"></p>
     <br>
-    <p>
-      <i>If you want to can start the transformation with the following button.
-      Please note that it can take a while. Refresh this page if it takes too long to see the new status.</i>
-    </p>
+    <span style="word-break: keep-all;">
+      If you want to can start the transformation with the following button.
+      Please note that it can take a while. Refresh this page if it takes too long to see the new status.
+    </span>
     <br>
     <button id="dataretrieval_start">
       Start
@@ -55,7 +56,13 @@ xhr.onreadystatechange = function() {
     $("#dataretrieval_status").html(json.status);
   }
 };
-xhr.open("GET", "http://localhost:8080/mapping?id="+nomad_id+"&repository=NOMAD", true);
+function getServiceURL() {
+  let port = "";
+  if (location.host === "localhost")
+    port = ":8080"
+  return location.protocol+"//dataretrieval."+location.host+port;
+}
+xhr.open("GET", getServiceURL()+"/mapping?id="+nomad_id+"&repository=NOMAD", true);
 xhr.send();
 
 </script>
