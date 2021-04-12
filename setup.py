@@ -21,7 +21,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/TBoonX/ckanext-dataretrieval',
+    url='https://github.com/AKSW/ckanext-dataretrieval',
 
     # Author details
     author='''Kurt Junghanns''',
@@ -36,7 +36,7 @@ setup(
         # 3 - Alpha
         # 4 - Beta
         # 5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 1 - Development',
 
         # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
