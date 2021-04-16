@@ -18,7 +18,8 @@
       Please note that it can take a while. Refresh this page if it takes too long to see the new status.
     </span>
     <br>
-    <button id="dataretrieval_start">
+    <button id="dataretrieval_start"
+      onclick="startExecution()" >
       Start
     </button>
   </div>
@@ -64,5 +65,26 @@ function getServiceURL() {
 }
 xhr.open("GET", getServiceURL()+"/mapping?id="+nomad_id+"&repository=NOMAD", true);
 xhr.send();
+
+
+/////////////////
+
+function startExecution() {
+  $("#dataretrieval_start").prop('disabled', true);
+  $("#dataretrieval_status").html("RUNNING");
+
+  var xhr2 = new XMLHttpRequest();
+  xhr2.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var json = JSON.parse(this.responseText);
+      console.log(json);
+      $("#dataretrieval_status").html(json.status);
+    }
+    else
+      console.log(this);
+  };
+  xhr2.open("GET", getServiceURL()+"/startExecution?id="+nomad_id+"&repository=NOMAD", true);
+  xhr2.send();
+}
 
 </script>
