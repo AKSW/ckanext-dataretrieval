@@ -45,10 +45,11 @@ console.log(JSON.parse(pgk));
 var extras = JSON.parse(pgk);
 let nomad_id = "dummy";
 extras.forEach((e) => {
-  if (e.key === "Identifier")
-    console.log(e.value);
+  if (e.key === "Identifier") {
     nomad_id = e.value;
+  }
   });
+console.log(nomad_id);
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
@@ -59,9 +60,12 @@ xhr.onreadystatechange = function() {
 };
 function getServiceURL() {
   let port = "";
-  if (location.host === "localhost")
-    port = ":8080"
-  return location.protocol+"//dataretrieval."+location.host+port;
+  let prefix = "dataretrieval.";
+  if (location.host === "localhost") {
+    port = ":8080";
+    prefix = "";
+  }
+  return location.protocol+"//"+prefix+location.host+port;
 }
 xhr.open("GET", getServiceURL()+"/mapping?id="+nomad_id+"&repository=NOMAD", true);
 xhr.send();
