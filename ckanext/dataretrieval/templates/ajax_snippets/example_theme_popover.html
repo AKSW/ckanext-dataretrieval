@@ -14,7 +14,7 @@
     <p id="dataretrieval_status"></p>
     <br>
     <span style="word-break: keep-all;">
-      If you want to can start the transformation with the following button.
+      If you want to, you can start the transformation with the following button.
       Please note that it can take a while. Refresh this page if it takes too long to see the new status.
     </span>
     <br>
@@ -22,6 +22,13 @@
       onclick="startExecution()" >
       Start
     </button>
+  </div>
+  <br>
+  <div>
+    <dl>
+      <dt>Graph</dt>
+      <dd id="dataretrieval_graph"></dd>
+    </dl>
   </div>
   <br>
   <div class="license">
@@ -48,8 +55,9 @@ console.log(JSON.parse(pgk));
 var extras = JSON.parse(pgk);
 let nomad_id = "dummy";
 extras.forEach((e) => {
-  if (e.key === "Identifier") {
-    nomad_id = e.value;
+  if (e.key === "Website") {
+    var splits = e.value.split("/");
+    nomad_id = splits[splits.length-2] + "/" + splits[splits.length-1];
   }
   });
 console.log(nomad_id);
@@ -61,8 +69,12 @@ xhr.onreadystatechange = function() {
     var json = JSON.parse(this.responseText);
     console.log(json);
     $("#dataretrieval_status").html(json.status);
+    if (json.targetGraph) {
+      $("#dataretrieval_graph").html(json.targetGraph);
+    }
   }
 };
+// TODO read if NOMAD or DSMS
 function getServiceURL() {
   let port = "";
   let prefix = "dataretrieval.";
@@ -81,6 +93,7 @@ xhr.send();
 function startExecution() {
   $("#dataretrieval_start").prop('disabled', true);
   $("#dataretrieval_status").html("RUNNING");
+  $("#dataretrieval_graph").html("");
 
   var xhr2 = new XMLHttpRequest();
   xhr2.onreadystatechange = function() {
@@ -89,6 +102,9 @@ function startExecution() {
       console.log(json);
       $("#dataretrieval_status").html(json.status);
       $("#dataretrieval_start").prop('disabled', false);
+      if (json.targetGraph) {
+        $("#dataretrieval_graph").html(json.targetGraph);
+      }
     }
     else
       console.log(this);
