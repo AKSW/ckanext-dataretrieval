@@ -97,7 +97,8 @@ function getServiceURL_dataretrieval() {
   return location.protocol+"//"+prefix+location.host+port;
 }
 xhr_dataretrieval.open("GET", getServiceURL_dataretrieval()+"/mapping?id="+nomad_id_dataretrieval+"&repository=NOMAD", true);
-xhr_dataretrieval.send();
+
+setTimeout(function(){ xhr_dataretrieval.send(); }, 3000);
 
 
 /////////////////
