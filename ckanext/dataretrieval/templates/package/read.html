@@ -15,10 +15,9 @@
 
 
   <section>
-          <h3>WORK IN PROGRESS<br>RML mapping</h3>
+          <h3>RDF data - SPARQL endpoint</h3>
           <span style="word-break: keep-all;">
-              If you want to, you can start the transformation with the start mapping button.
-              Please note that it can take a while. Refresh this page if it takes too long to see the new status.
+
           </span>
           <table class="table table-striped table-bordered table-condensed">
             <thead>
@@ -29,25 +28,8 @@
             </thead>
             <tbody>
                   <tr>
-                    <th scope="row" class="dataset-label">Status</th>
-                      <td class="dataset-details"><p id="dataretrieval_status"></p></td>
-                  </tr>
-                  <tr>
-                    <th scope="row" class="dataset-label">Mapping</th>
-                    <td class="dataset-details">
-                        <button id="dataretrieval_start"
-                          onclick="startExecution_dataretrieval()" >
-                          Start
-                        </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" class="dataset-label">Graph</th>
-                      <td class="dataset-details" id="dataretrieval_graph"></td>
-                  </tr>
-                  <tr>
-                    <th scope="row" class="dataset-label">License</th>
-                      <td class="dataset-details">{{ pkg.license_title }}</td>
+                    <th scope="row" class="dataset-label">Link to SPARQL query</th>
+                      <td class="dataset-details" id="dataretrieval_url"></td>
                   </tr>
             </tbody>
           </table>
@@ -98,7 +80,31 @@ function getServiceURL_dataretrieval() {
 }
 xhr_dataretrieval.open("GET", getServiceURL_dataretrieval()+"/mapping?id="+nomad_id_dataretrieval+"&repository=NOMAD", true);
 
-setTimeout(function(){ xhr_dataretrieval.send(); }, 3000);
+//setTimeout(function(){ xhr_dataretrieval.send(); }, 3000);
+
+
+let identifier = "dummy";
+extras_dataretrieval.forEach((e) => {
+  if (e.key === "Identifier") {
+    identifier = e.value;
+  }
+});
+let repo = "Nomad";
+extras_dataretrieval.forEach((e) => {
+  if (e.key === "harvest_source_title") {
+    if (e.value !== "nomad")
+        repo = "Dsms";
+    else { //Use longer identifier for NOMAD
+        identifier = nomad_id_dataretrieval;
+    }
+  }
+});
+console.log("identifier", identifier);
+console.log("repo", repo);
+
+setTimeout(function() {
+    $("#dataretrieval_url").html('<a href="http://yasgui.stream-dataspace.net?repo='+repo+'&id='+encodeURIComponent(identifier)+'">Link</a>');
+}, 3000);
 
 
 /////////////////
