@@ -92,7 +92,7 @@ extras_dataretrieval.forEach((e) => {
 let repo = "Nomad";
 extras_dataretrieval.forEach((e) => {
   if (e.key === "harvest_source_title") {
-    if (e.value !== "nomad")
+    if (e.value.toLowerCase().indexOf("nomad") === -1)
         repo = "Dsms";
     else { //Use longer identifier for NOMAD
         identifier = nomad_id_dataretrieval;
